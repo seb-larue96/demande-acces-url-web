@@ -1,0 +1,11 @@
+<mat-toolbar class="mat-elevation-z8">
+    @if (sidenav.mode === 'over') {
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon style="color: white !important;">{{ sidenav.opened ? 'close' : 'menu' }}</mat-icon>
+        </button>
+    }
+    <span style="flex: 1;"></span>
+    <span style="font-weight: bold;">DSI - Demande d'Accès URL</span>
+    <span style="flex: 1;"></span>
+    <mat-divider [vertical]="true"></mat-divider>
+</mat-toolbar>
