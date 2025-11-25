@@ -1,0 +1,52 @@
+<mat-card class="card-container">
+    <mat-card-content>
+        <div class="landing-intro">
+        <p class="intro-text">
+            Ce système est développé pour le <span class="highlight">les développeurs de la DSI.</span>
+            Il vise à centraliser et à simplifier les demandes d'accès aux URLs sécurisées.
+            <br /><br />
+            <strong class="highlight">Remarque :</strong> Le module de gestion des accès avancés est en cours de développement et sera disponible prochainement.
+        </p>
+        </div>
+
+        <div class="features-section">
+        <h3>Fonctionnalités Actuelles</h3>
+        <div class="features">
+            <mat-card class="feature-card">
+            <mat-card-header>
+                <mat-card-title>Gestion des Requêtes URL</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Soumettez, consultez et suivez les demandes d'accès aux URLs pour tous les développeurs.</p>
+            </mat-card-content>
+            </mat-card>
+
+            <mat-card class="feature-card">
+            <mat-card-header>
+                <mat-card-title>Accès Sécurisé</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Seul le personnel autorisé peut approuver ou consulter les demandes d'accès aux URLs.</p>
+            </mat-card-content>
+            </mat-card>
+
+            <mat-card class="feature-card">
+            <mat-card-header>
+                <mat-card-title>Interface Conviviale</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Conçue pour la simplicité et l'efficacité afin d'améliorer l'expérience utilisateur.</p>
+            </mat-card-content>
+            </mat-card>
+        </div>
+        </div>
+
+        <div class="extra-text">
+        <p>Commencez à gérer les demandes d'accès en cliquant ci-dessous.</p>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-raised-button class="main" color="primary" [routerLink]="['/']">Accéder aux Demandes d'accès URL</button>
+    </mat-card-actions>
+</mat-card>
