@@ -1,8 +1,9 @@
-import { computed, inject, Injectable, signal, Signal } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable, signal, Signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, of, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { loginRequest } from '../../interfaces/auth/IAuth';
-import { catchError, of, tap, throwError } from 'rxjs';
+import { LoginRequest, UserInfoResponse } from '../../interfaces/auth/IAuth';
+import { ApiResponse } from '../../interfaces/api/IAPI';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +13,42 @@ export class AuthService {
   private http = inject(HttpClient);
 
   private _isAuthenticated = signal(false);
-  readonly isAuthenticated: Signal<boolean> = computed(() => this._isAuthenticated());
+  readonly isAuthenticated = this._isAuthenticated.asReadonly();
 
-  private _username = signal('');
-  readonly username: Signal<string> = computed(() => this._username());
+  private _userName = signal('');
+  readonly userName = this._userName.asReadonly();
 
-  httpOptions = {
-    withCredentials: true
-  };
+  private httpOptions = { withCredentials: true };
 
-  login(credentials: loginRequest) {
-    return this.http.post(`${this.apiUrl}/login`, credentials, this.httpOptions).pipe(
-      tap(() => this._isAuthenticated.set(true)),
-      catchError(() => throwError(() => new Error('Login failed. Check your credentials.')))
+  login(credentials: LoginRequest) {
+    return this.http
+    .post<ApiResponse<UserInfoResponse>>(`${this.apiUrl}/login`, credentials, this.httpOptions)
+    .pipe(
+      tap((res) => {
+        if (res?.data) {
+          const { name, surname } = res.data;
+          this._userName.set(`${name} ${surname}`);
+          this._isAuthenticated.set(true);
+        }
+      })
     );
   }
 
   checkAuth() {
-    return this.http.get(`${this.apiUrl}/me`, this.httpOptions).pipe(
-      tap(() => this._isAuthenticated.set(true)),
+    return this.http
+    .get<ApiResponse<UserInfoResponse>>(`${this.apiUrl}/me`, this.httpOptions)
+    .pipe(
+      tap((res) => {
+        const ok = !!res?.data;
+        this._isAuthenticated.set(ok);
+        if(ok) {
+          const { name, surname } = res.data;
+          this._userName.set(`${name} ${surname}`);
+        }
+      }),
       catchError(() => {
         this._isAuthenticated.set(false);
+        this._userName.set('');
         return of(null);
       })
     );
