@@ -6,6 +6,7 @@ import { ListAccessRequestsModule } from '../../modules/list-access-requests.mod
 import { AccessRequestService } from '../../services/access-request-service';
 import { AccessRequestResponse } from '../../interfaces/IAccessRequests';
 import { ViewAccessRequest } from '../view-access-request/view-access-request';
+import { AddAccessRequest } from '../add-access-request/add-access-request';
 
 @Component({
   selector: 'app-list-access-requests',
@@ -47,5 +48,12 @@ export class ListAccessRequests {
         'id': id
       }
     });
+  }
+
+  addAccessRequest() {
+    this.dialog.open(AddAccessRequest, {
+      height: 'auto',
+      width: '600px',
+    })
   }
 }
