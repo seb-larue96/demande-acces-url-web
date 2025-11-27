@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { ApiResponse } from '../../../core/interfaces/api/IAPI';
 import { AccessRequestResponse } from '../interfaces/IAccessRequests';
 
 @Injectable({
@@ -20,15 +21,17 @@ export class AccessRequestService {
   private readonly _loadingAccessRequests = signal(false);
   readonly loadingAccessRequests = this._loadingAccessRequests.asReadonly();
 
-  constructor() {}
+  httpOptions = {
+    withCredentials: true
+  };
 
   getAccessRequests() {
     this._loadingAccessRequests.set(true);
     return this.http
-    .get<AccessRequestResponse[]>(`${this.apiUrl}/getAccessRequests`)
+    .get<ApiResponse<AccessRequestResponse[]>>(`${this.apiUrl}/getAccessRequests`, this.httpOptions)
     .pipe(
       tap(accessRequests => {
-        this._accessRequests.set(accessRequests);
+        this._accessRequests.set(accessRequests.data);
         this._loadingAccessRequests.set(false);
       }),
     );
@@ -37,10 +40,10 @@ export class AccessRequestService {
   getAccessRequestsByUser() {
     this._loadingAccessRequests.set(true);
     return this.http
-    .get<AccessRequestResponse[]>(`${this.apiUrl}/getAccessRequestsByUser`)
+    .get<ApiResponse<AccessRequestResponse[]>>(`${this.apiUrl}/getAccessRequestsByUser`, this.httpOptions)
     .pipe(
       tap(accessRequests => {
-        this._accessRequests.set(accessRequests);
+        this._accessRequests.set(accessRequests.data);
         this._loadingAccessRequests.set(false);
       }),
     );
@@ -48,9 +51,9 @@ export class AccessRequestService {
 
   getAccessRequestById(id: number) {
     return this.http
-    .get<AccessRequestResponse>(`${this.apiUrl}/getAccessRequestById/${id}`)
+    .get<ApiResponse<AccessRequestResponse>>(`${this.apiUrl}/getAccessRequestById/${id}`, this.httpOptions)
     .pipe(
-      tap(accessRequest => this._selectedAccessRequest.set(accessRequest))
+      tap(accessRequest => this._selectedAccessRequest.set(accessRequest.data))
     );
   }
 }
