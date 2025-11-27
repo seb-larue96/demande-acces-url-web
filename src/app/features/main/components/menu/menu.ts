@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Sidenav } from '../../../../shared/layout/components/sidenav/sidenav';
+import { AuthService } from '../../../../core/services/auth/auth-service';
 
 @Component({
   selector: 'app-menu',
@@ -8,5 +9,7 @@ import { Sidenav } from '../../../../shared/layout/components/sidenav/sidenav';
   styleUrl: './menu.scss',
 })
 export class Menu {
+  private authService = inject(AuthService);
 
+  userName = this.authService.userName;
 }

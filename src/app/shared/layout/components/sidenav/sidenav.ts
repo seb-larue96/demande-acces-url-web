@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, input, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -18,6 +18,7 @@ export class Sidenav {
   private observer = inject(BreakpointObserver);
   private router = inject(Router);
 
+  readonly userName = input<string>();
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
