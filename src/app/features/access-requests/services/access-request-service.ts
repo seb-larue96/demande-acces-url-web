@@ -3,7 +3,7 @@ import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/cor
 import { tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiResponse } from '../../../core/interfaces/api/IAPI';
-import { AccessRequestResponse } from '../interfaces/IAccessRequests';
+import { AccessRequestRequest, AccessRequestResponse } from '../interfaces/IAccessRequests';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,14 @@ export class AccessRequestService {
   httpOptions = {
     withCredentials: true
   };
+
+  addAccessRequest(newAccessRequest: AccessRequestRequest) {
+    return this.http
+    .post<ApiResponse<AccessRequestResponse>>(`${this.apiUrl}/createAccessRequest`, newAccessRequest, this.httpOptions)
+    .pipe(
+      tap(newAccessRequest => this._accessRequests.update(currentAccessRequests => [...currentAccessRequests, newAccessRequest.data]))
+    );
+  }
 
   getAccessRequests() {
     this._loadingAccessRequests.set(true);
