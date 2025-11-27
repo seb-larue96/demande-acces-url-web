@@ -1,0 +1,37 @@
+<div class="view-access-request-container">
+    <h2 mat-dialog-title style="color: #002b5c; font-weight: bold; text-align: center;">Informations demande d'accès</h2>
+    @if (accessRequest()){
+        <div class="access-request-detail">
+            <label for="requestNumber">Numéro Demande: </label>
+            <span id="requestNumber">{{ accessRequest()?.requestNumber }}</span>
+        </div>
+        <div class="access-request-detail">
+            <label for="url">URL: </label>
+            <span id="url">{{ accessRequest()?.url }}</span>
+        </div>
+        <div class="access-request-detail">
+            <label for="demandeur">Demandeur: </label>
+            <span id="demandeur">{{ accessRequest()?.requester }}</span>
+        </div>
+        <div class="access-request-detail">
+            <label for="requestStatus">Demande Statut: </label>
+            <span id="requestStatus">{{ accessRequest()?.requestStatus }}</span>
+        </div>
+        <div class="access-request-detail">
+            <label for="reasonRequest">Raison Demande: </label>
+            <span id="reasonRequest">{{ accessRequest()?.reasonToRequest }}</span>
+        </div>
+        @if(accessRequest()?.reasonToReject) {
+            <div class="access-request-detail">
+                <label for="reasonReject">Rejet Raison: </label>
+                <span id="reasonReject">{{ accessRequest()?.reasonToReject }}</span>
+            </div>
+        }
+    }
+    @else {
+        <p>Chargement de la demande...</p>
+    }
+    <div class="actions">
+        <button mat-button (click)="closeDialog()">Fermer</button>
+    </div>
+</div>
