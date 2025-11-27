@@ -1,9 +1,11 @@
 import { Component, effect, inject, Signal, ViewChild } from '@angular/core';
-import { ListAccessRequestsModule } from '../../modules/list-access-requests.module';
-import { AccessRequestService } from '../../services/access-request-service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { ListAccessRequestsModule } from '../../modules/list-access-requests.module';
+import { AccessRequestService } from '../../services/access-request-service';
 import { AccessRequestResponse } from '../../interfaces/IAccessRequests';
+import { ViewAccessRequest } from '../view-access-request/view-access-request';
 
 @Component({
   selector: 'app-list-access-requests',
@@ -13,6 +15,7 @@ import { AccessRequestResponse } from '../../interfaces/IAccessRequests';
 })
 export class ListAccessRequests {
   accessRequestService = inject(AccessRequestService);
+  private dialog = inject(MatDialog)
 
   displayedColumns: string[] = ['requestNumber', 'url', 'requestStatus', 'actions'];
   dataSource: MatTableDataSource<AccessRequestResponse> = new MatTableDataSource<AccessRequestResponse>();
@@ -34,5 +37,15 @@ export class ListAccessRequests {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  viewAccesRequest(id: number) {
+    this.dialog.open(ViewAccessRequest, {
+      height: 'auto',
+      width: '600px',
+      data: {
+        'id': id
+      }
+    });
   }
 }
