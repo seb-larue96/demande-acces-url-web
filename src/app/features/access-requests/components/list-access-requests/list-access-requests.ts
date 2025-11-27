@@ -1,4 +1,4 @@
-import { Component, effect, inject, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,26 +14,24 @@ import { AddAccessRequest } from '../add-access-request/add-access-request';
   templateUrl: './list-access-requests.html',
   styleUrl: './list-access-requests.scss'
 })
-export class ListAccessRequests {
+export class ListAccessRequests implements OnInit, AfterViewInit {
   accessRequestService = inject(AccessRequestService);
-  private dialog = inject(MatDialog)
+  private dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['requestNumber', 'url', 'requestStatus', 'actions'];
-  dataSource: MatTableDataSource<AccessRequestResponse> = new MatTableDataSource<AccessRequestResponse>();
-  accessRequests: Signal<AccessRequestResponse[]>;
+  dataSource = new MatTableDataSource<AccessRequestResponse>();
+  accessRequests = this.accessRequestService.accessRequests;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   constructor() {
-    this.accessRequests = this.accessRequestService.accessRequests;
-
     effect(() => {
       this.dataSource.data = this.accessRequests();
     })
   }
 
   ngOnInit() {
-    this.accessRequestService.getAccessRequests().subscribe();
+    this.accessRequestService.getAccessRequests();
   }
 
   ngAfterViewInit() {

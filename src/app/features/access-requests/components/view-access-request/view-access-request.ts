@@ -15,11 +15,10 @@ export class ViewAccessRequest {
   private dialogRef = inject(MatDialogRef<ViewAccessRequest>);
   private dialogData = inject(MAT_DIALOG_DATA);
 
-  accessRequest: Signal<AccessRequestResponse | null>;
+  accessRequest = this.accessRequestService.selectedAccessRequest;
 
   constructor() {
-    this.accessRequest = this.accessRequestService.selectedAccessRequest;
-    this.accessRequestService.getAccessRequestById(this.dialogData.id).subscribe();
+    this.accessRequestService.getAccessRequestById(this.dialogData.id);
   }
 
   closeDialog() {
