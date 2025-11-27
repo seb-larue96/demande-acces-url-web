@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { LoginModules } from '../../modules/login.module';
-import { loginRequest } from '../../../../core/interfaces/auth/IAuth';
+import { LoginRequest } from '../../../../core/interfaces/auth/IAuth';
 import { AuthService } from '../../../../core/services/auth/auth-service';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.scss',
 })
 export class Login {
-  loginRequest: loginRequest = {
+  loginRequest: LoginRequest = {
     email: "",
     password: ""
   };
