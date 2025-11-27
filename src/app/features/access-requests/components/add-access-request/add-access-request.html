@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Nouvelle demande d'accès</h2>
+<form (ngSubmit)="saveNewAccessRequest()">
+    <mat-dialog-content>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <mat-form-field style="flex: 1 1 100%;">
+                <mat-label for="url">URL</mat-label>
+                <input matInput id="url" name="url" [(ngModel)]="accessRequestForm().url" required>
+            </mat-form-field>
+            <mat-form-field style="flex: 1 1 100%;">
+                <mat-label for="reasonRequest">Raison</mat-label>
+                <textarea matInput id="reasonRequest" name="reasonRequest" [(ngModel)]="accessRequestForm().reasonToRequest" required></textarea>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button type="button" mat-button color="warn" (click)="closeDialog()" >Fermer</button>
+        <button type="submit" mat-button cdkFocusInitial>Sauvegarder</button>
+    </mat-dialog-actions>
+</form>
