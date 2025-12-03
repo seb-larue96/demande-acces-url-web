@@ -1,4 +1,4 @@
-import { Component, inject, input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, input, Output, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -19,6 +19,7 @@ export class Sidenav {
   private router = inject(Router);
 
   readonly userName = input<string>();
+  @Output() logoutEvent = new EventEmitter();
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
@@ -49,6 +50,10 @@ export class Sidenav {
         this.sidenav.close();
       }
     });
+  }
+
+  logout(){
+    this.logoutEvent.emit();
   }
 
   ngOnDestroy(): void {
