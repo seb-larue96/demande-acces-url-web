@@ -11,8 +11,18 @@ export const routes: Routes = [
         loadComponent: () => import('./features/main/components/home/home').then(c => c.Home)
     },
     {
-        path: 'demandes-acces',
-        loadComponent: () => import('./features/access-requests/components/list-access-requests/list-access-requests').then(c => c.ListAccessRequests)
+        path: 'mes-demandes-acces',
+        loadComponent: () => 
+            import('./features/access-requests/components/list-access-requests/list-access-requests')
+            .then(c => c.ListAccessRequests),
+        data: { type: 'user' }
+    },
+    {
+        path: 'toutes-demandes-acces',
+        loadComponent: () => 
+            import('./features/access-requests/components/list-access-requests/list-access-requests')
+            .then(c => c.ListAccessRequests),
+        data: { type: 'admin' }
     },
     {
         path: 'users',
