@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, inject } from '@angular/core';
 import { HeaderModule } from '../../modules/header.module';
+import { SidenavService } from '../../services/sidenav-service';
 
 @Component({
   selector: 'app-header',
@@ -9,5 +9,12 @@ import { HeaderModule } from '../../modules/header.module';
   styleUrl: './header.scss',
 })
 export class Header {
-  @Input() sidenav!: MatSidenav
+  private sidenavService = inject(SidenavService);
+
+  mode = this.sidenavService.mode;
+  isOpened = this.sidenavService.isOpened;
+
+  toggleSidenav() {
+    this.sidenavService.toggle();
+  }
 }

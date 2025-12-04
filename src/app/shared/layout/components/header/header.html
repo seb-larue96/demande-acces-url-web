@@ -1,7 +1,7 @@
 <mat-toolbar class="mat-elevation-z8">
-    @if (sidenav.mode === 'over') {
-        <button mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon style="color: white !important;">{{ sidenav.opened ? 'close' : 'menu' }}</mat-icon>
+    @if (mode() === 'over') {
+        <button mat-icon-button (click)="toggleSidenav()">
+            <mat-icon style="color: white !important;">{{ isOpened() ? 'close' : 'menu' }}</mat-icon>
         </button>
     }
     <span style="flex: 1;"></span>
