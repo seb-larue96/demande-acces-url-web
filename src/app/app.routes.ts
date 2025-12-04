@@ -13,5 +13,9 @@ export const routes: Routes = [
     {
         path: 'demandes-acces',
         loadComponent: () => import('./features/access-requests/components/list-access-requests/list-access-requests').then(c => c.ListAccessRequests)
+    },
+    {
+        path: 'users',
+        loadComponent: () => import('./features/users/components/list-users/list-users').then(c => c.ListUsers)
     }
 ];
