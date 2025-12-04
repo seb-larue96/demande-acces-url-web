@@ -1,62 +1,58 @@
-import { Component, EventEmitter, inject, input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { NavigationEnd, Router } from '@angular/router';
-import { MatSidenav } from '@angular/material/sidenav';
-import { delay, filter, Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { SidenavService } from '../../services/sidenav-service';
 import { SidenavModule } from '../../modules/sidenav.module';
+import { HasRoleDirective } from "../../../../core/directives/role.directive";
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 
 @Component({
   selector: 'app-sidenav',
-  imports: [SidenavModule, Header, Footer],
+  imports: [SidenavModule, Header, Footer, HasRoleDirective],
   templateUrl: './sidenav.html',
   styleUrl: './sidenav.scss',
 })
 export class Sidenav {
+  private sidenavService = inject(SidenavService);
   private destroy$ = new Subject<void>();
   private observer = inject(BreakpointObserver);
   private router = inject(Router);
 
   readonly userName = input<string>();
   @Output() logoutEvent = new EventEmitter();
-  @ViewChild(MatSidenav)
-  sidenav!: MatSidenav;
 
-  ngAfterViewInit() {
-    this.observer
-    .observe(['(max-width: 800px)'])
-    .pipe(
-      delay(1),
-      takeUntil(this.destroy$)
-    )
-    .subscribe((res) => {
+  isOpened = this.sidenavService.isOpened;
+  mode = this.sidenavService.mode;
+
+  ngOnInit() {
+    this.observer.observe(['(max-width: 800px)'])
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(res => {
       if (res.matches) {
-        this.sidenav.mode = 'over';
-        this.sidenav.close();
+        this.sidenavService.setMode('over');
+        this.sidenavService.close();
       } else {
-        this.sidenav.mode = 'side';
-        this.sidenav.open();
+        this.sidenavService.setMode('side');
+        this.sidenavService.open();
       }
     });
 
     this.router.events
-    .pipe(
-      filter((e) => e instanceof NavigationEnd),
-      takeUntil(this.destroy$)
-    )
+    .pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.destroy$))
     .subscribe(() => {
-      if (this.sidenav.mode === 'over') {
-        this.sidenav.close();
+      if (this.sidenavService.mode() === 'over') {
+        this.sidenavService.close();
       }
     });
   }
 
-  logout(){
+  logout() {
     this.logoutEvent.emit();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }

@@ -1,7 +1,7 @@
-<app-header [sidenav]="sidenav"></app-header>
+<app-header></app-header>
 
 <mat-sidenav-container>
-    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8" [mode]="mode()" [opened]="isOpened()">
         <p class="designation">Bienvenue</p>
         <p class="designation">{{userName()}}</p>
         
@@ -11,11 +11,15 @@
             <mat-icon>home</mat-icon>
             <span>Accueil</span>
         </button>
-        <button mat-button class="menu-button" routerLink="/demandes-acces">
+        <button mat-button class="menu-button" routerLink="/mes-demandes-acces">
             <mat-icon>link</mat-icon>
             <span>Mes demandes d'accès</span>
         </button>
-        <button mat-button class="menu-button" routerLink="/users">
+        <button *appHasRole="'Admin'" mat-button class="menu-button" routerLink="/toutes-demandes-acces">
+            <mat-icon>dataset_linked</mat-icon>
+            <span>Toutes demandes d'accès</span>
+        </button>
+        <button *appHasRole="'Admin'" mat-button class="menu-button" routerLink="/users">
             <mat-icon>groups</mat-icon>
             <span>Utilisateurs</span>
         </button>

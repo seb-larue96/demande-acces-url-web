@@ -1,6 +1,6 @@
 mat-sidenav {
     margin: 10px;
-    width: 220px;
+    width: 250px;
     border-right: none;
     background: #002b5c;
     color: white;
@@ -11,7 +11,6 @@ mat-sidenav {
 
 mat-sidenav-container {
     height: calc(100vh - 65px);
-    display: flex;
 }
 
 .content-wrapper {
