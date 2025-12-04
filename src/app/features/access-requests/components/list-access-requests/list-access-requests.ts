@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, effect, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +8,6 @@ import { AccessRequestService } from '../../services/access-request-service';
 import { AccessRequestResponse } from '../../interfaces/IAccessRequests';
 import { ViewAccessRequest } from '../view-access-request/view-access-request';
 import { AddAccessRequest } from '../add-access-request/add-access-request';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-access-requests',
@@ -23,6 +23,7 @@ export class ListAccessRequests implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['requestNumber', 'url', 'requestStatus', 'actions'];
   dataSource = new MatTableDataSource<AccessRequestResponse>();
   accessRequests = this.accessRequestService.accessRequests;
+  toolbarTitle = signal<string>('');
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
@@ -36,8 +37,10 @@ export class ListAccessRequests implements OnInit, AfterViewInit {
     const type = this.route.snapshot.data['type'];
 
     if (type === 'admin') {
+      this.toolbarTitle.set("Liste de demandes d'accès URL");
       this.accessRequestService.getAccessRequests();
     } else {
+      this.toolbarTitle.set("Mes demandes d'accès URL");
       this.accessRequestService.getAccessRequestsByUser();
     }
   }
