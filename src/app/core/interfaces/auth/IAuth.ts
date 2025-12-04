@@ -13,4 +13,5 @@ export interface RegisterRequest {
 export interface UserInfoResponse {
     name: string;
     surname: string;
+    role: string;
 }

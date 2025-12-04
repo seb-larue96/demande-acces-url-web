@@ -18,6 +18,9 @@ export class AuthService {
   private _userName = signal('');
   readonly userName = this._userName.asReadonly();
 
+  private _role = signal<string | null>(null);
+  readonly role = this._role.asReadonly();
+
   private httpOptions = { withCredentials: true };
 
   login(credentials: LoginRequest) {
@@ -57,13 +60,15 @@ export class AuthService {
         const ok = !!res?.data;
         this._isAuthenticated.set(ok);
         if(ok) {
-          const { name, surname } = res.data;
+          const { name, surname, role } = res.data;
           this._userName.set(`${name} ${surname}`);
+          this._role.set(role);
         }
       }),
       catchError(() => {
         this._isAuthenticated.set(false);
         this._userName.set('');
+        this._role.set(null);
         return of(null);
       })
     );
