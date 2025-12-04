@@ -1,0 +1,49 @@
+
+mat-toolbar {
+    background: #002b5c;
+    color: white;
+}
+
+.loading-shade {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.add-user-btn {
+    display: flex;
+    align-items: center;
+}
+
+.table-container {
+    position: relative;
+    min-height: 200px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+@media (max-width: 768px) {
+    .add-user-btn .btn-text {
+        display: none;
+    }
+      
+    .add-user-btn {
+        padding: 8px;
+    }
+      
+    .add-user-btn mat-icon {
+        margin-right: 0;
+        margin-left: 0;
+    }
+}

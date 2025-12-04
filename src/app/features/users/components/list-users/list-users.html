@@ -1,0 +1,51 @@
+<mat-toolbar>
+    <span style="font-weight: bold;">Liste d'utilisateurs</span>
+    <span class="toolbar-spacer"></span>
+    <button class="add-request-btn" style="color: #002b5c;" mat-raised-button>
+        <mat-icon>add</mat-icon>
+        <span class="btn-text">Créer un utilisateur</span>
+    </button>
+</mat-toolbar>
+
+<div class="table-container">
+    @if (userService.loadingUsers()) {
+        <div class="loading-shade">
+            <mat-spinner></mat-spinner>
+        </div>
+    }
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Prénom</th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="surname">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Role</th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="Visualiser l'utilisateur">
+                    <mat-icon color="primary">visibility</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Mettre à jour un utilisateur">
+                    <mat-icon color="accent">edit</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Supprimer l'utilisateur">
+                    <mat-icon color="warn">delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
