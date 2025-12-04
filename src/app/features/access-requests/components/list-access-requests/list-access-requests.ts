@@ -7,6 +7,7 @@ import { AccessRequestService } from '../../services/access-request-service';
 import { AccessRequestResponse } from '../../interfaces/IAccessRequests';
 import { ViewAccessRequest } from '../view-access-request/view-access-request';
 import { AddAccessRequest } from '../add-access-request/add-access-request';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-access-requests',
@@ -17,6 +18,7 @@ import { AddAccessRequest } from '../add-access-request/add-access-request';
 export class ListAccessRequests implements OnInit, AfterViewInit {
   accessRequestService = inject(AccessRequestService);
   private dialog = inject(MatDialog);
+  private route = inject(ActivatedRoute)
 
   displayedColumns: string[] = ['requestNumber', 'url', 'requestStatus', 'actions'];
   dataSource = new MatTableDataSource<AccessRequestResponse>();
@@ -31,7 +33,13 @@ export class ListAccessRequests implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.accessRequestService.getAccessRequests();
+    const type = this.route.snapshot.data['type'];
+
+    if (type === 'admin') {
+      this.accessRequestService.getAccessRequests();
+    } else {
+      this.accessRequestService.getAccessRequestsByUser();
+    }
   }
 
   ngAfterViewInit() {
