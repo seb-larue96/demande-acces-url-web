@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LoginRequest, UserInfoResponse } from '../../interfaces/auth/IAuth';
 import { ApiResponse } from '../../interfaces/api/IAPI';
@@ -26,11 +26,10 @@ export class AuthService {
     .pipe(
       tap((res) => {
         if (res?.data) {
-          const { name, surname } = res.data;
-          this._userName.set(`${name} ${surname}`);
           this._isAuthenticated.set(true);
         }
-      })
+      }),
+      switchMap(() => this.checkAuth())
     );
   }
 
