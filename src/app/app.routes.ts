@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
     {
@@ -15,17 +16,23 @@ export const routes: Routes = [
         loadComponent: () => 
             import('./features/access-requests/components/list-access-requests/list-access-requests')
             .then(c => c.ListAccessRequests),
-        data: { type: 'user' }
+        canActivate: [RoleGuard],
+        data: { type: 'user', role: 'User' }
     },
     {
         path: 'toutes-demandes-acces',
         loadComponent: () => 
             import('./features/access-requests/components/list-access-requests/list-access-requests')
             .then(c => c.ListAccessRequests),
-        data: { type: 'admin' }
+        canActivate: [RoleGuard],
+        data: { type: 'admin', role: 'Admin' }
     },
     {
         path: 'users',
-        loadComponent: () => import('./features/users/components/list-users/list-users').then(c => c.ListUsers)
+        loadComponent: () => 
+            import('./features/users/components/list-users/list-users')
+            .then(c => c.ListUsers),
+        canActivate: [RoleGuard],
+        data: { role: 'Admin' }
     }
 ];
