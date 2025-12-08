@@ -20,10 +20,12 @@ export class ListAccessRequests implements OnInit, AfterViewInit {
   private dialog = inject(MatDialog);
   private route = inject(ActivatedRoute)
 
-  displayedColumns: string[] = ['requestNumber', 'url', 'requestStatus', 'actions'];
+  displayedColumns: string[] = ['requestNumber', 'url', 'requester', 'requestStatus', 'actions'];
   dataSource = new MatTableDataSource<AccessRequestResponse>();
+
   accessRequests = this.accessRequestService.accessRequests;
   toolbarTitle = signal<string>('');
+  routeType = signal<'admin' | 'user'>('user');
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
@@ -39,9 +41,11 @@ export class ListAccessRequests implements OnInit, AfterViewInit {
     if (type === 'admin') {
       this.toolbarTitle.set("Liste de demandes d'accès URL");
       this.accessRequestService.getAccessRequests();
+      this.routeType.set('admin');
     } else {
       this.toolbarTitle.set("Mes demandes d'accès URL");
       this.accessRequestService.getAccessRequestsByUser();
+      this.routeType.set('user');
     }
   }
 
