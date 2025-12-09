@@ -34,5 +34,13 @@ export const routes: Routes = [
             .then(c => c.ListUsers),
         canActivate: [RoleGuard],
         data: { role: 'Admin' }
+    },
+    {
+        path: 'profile',
+        loadComponent: () =>
+            import('./features/users/components/user-profile/user-profile')
+            .then(c => c.UserProfile),
+        canActivate: [RoleGuard],
+        data: { role: 'User' }
     }
 ];
